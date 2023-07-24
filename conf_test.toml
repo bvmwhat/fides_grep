@@ -1,0 +1,17 @@
+separator = "¬~"
+field = 2
+extension = "weights"
+
+[rule]
+text = "beach"
+weight = 11.5
+ignore = '*'
+
+[suffix]
+distance.default = 7
+file = 'suffix_test'
+
+[domains]
+field = 1
+weight = 1
+file = 'domains_test'

@@ -1,0 +1,35 @@
+#separator = "-fides_delim-"
+#field = 2
+#extension = "weights"
+#
+#[rule]
+#text = "instagram"
+#weight = 10
+#ignore = '-.,'
+#
+#[suffix]
+#distance.left = 7
+#file = 'suffix_file'
+#
+#[domains]
+#field = 1
+#weight = 2
+#file = 'domains_file'
+
+separator = "-fides_delim-"
+field = 2
+extension = "weights"
+
+[rule]
+text = "beach"
+weight = 11.5
+ignore = '*'
+
+[suffix]
+distance.default = 100
+file = 'suffix_file'
+
+[domains]
+field = 1
+weight = 1
+file = 'domains_file'
