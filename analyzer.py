@@ -1,3 +1,4 @@
+import datetime
 import logging
 import os.path
 import re
@@ -48,11 +49,21 @@ def get_field_weight(line: str, config: Config) -> int:
     return weight
 
 
-def analyse_file(filename: str, config: Config, destination: str = ".") -> None:
+def analyse_file(
+    filename: str, config: Config, time_now: datetime.datetime, destination: str = "."
+) -> None:
     logging.info(f"Started parsing file {repr(filename)}.")
+    field_al = "".join(str(i) for i in config.fields)
     file_path = os.path.join(
         destination,
-        f"{(os.path.splitext(os.path.basename(filename))[0])}{config.extension}",
+        "".join(
+            [
+                f"{(os.path.splitext(os.path.basename(filename))[0])}",
+                f"_field{field_al}",
+                f"_{time_now}",
+                f".{config.extension}",
+            ]
+        ),
     )
     logging.info(f"The result will be saved with the name {repr(file_path)}.")
     open(file_path, "w").close()

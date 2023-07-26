@@ -8,7 +8,7 @@ import logging
 import re
 import sys
 from collections import namedtuple
-
+import os
 import toml
 
 Suffix = namedtuple("Suffix", "word weight distance mode")
@@ -82,7 +82,7 @@ class Distance:
 class Config:
     def __init__(self, args, filename: str = "config.toml"):
         config = toml.load(filename)
-
+        config_path = os.path.dirname(filename)
         suffix_space = config.get("suffix", {})
         domains_space = config.get("domains")
 
@@ -155,8 +155,8 @@ class Config:
 
         self.ignore_symbols = rule_space.get("ignore", "")
 
-        suf_filename = suffix_space.get("file", args.suffix)
         dom_filename = domains_space.get("file", args.suffix)
+        suf_filename = suffix_space.get("file", args.suffix)
         self.domains_default_weight = domains_space.get("weight", 0)
         try:
             self.domains_field = domains_space["field"]
@@ -167,7 +167,8 @@ class Config:
             exit(9)
 
         if dom_filename:
-            with open(dom_filename) as dom_file:
+            dom_path = os.path.join(config_path, dom_filename)
+            with open(dom_path) as dom_file:
                 self.domains = [load_domain(line, self) for line in dom_file]
 
             if not self.domains:
@@ -176,7 +177,8 @@ class Config:
             logging.warning(f"Domains file not specified.")
 
         if suf_filename:
-            with open(suf_filename) as suf_file:
+            suf_path = os.path.join(config_path, suf_filename)
+            with open(suf_path) as suf_file:
                 self.suffixes = [get_suffix_data(line) for line in suf_file]
 
             if not self.suffixes:
